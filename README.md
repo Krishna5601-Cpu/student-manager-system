@@ -1,10 +1,10 @@
-# student-manager-system
-
 # Student Management System (Python CLI)
 
-A modular, production-style **Student Management System** built using Python.  
-This project demonstrates clean architecture, CRUD operations, input validation,
-and real-world backend design principles using a command-line interface (CLI).
+A simple but structured **Student Management System** built using Python and a command-line interface.
+
+This project started as a basic CRUD practice project, but gradually evolved into a more **realistic backend-style application** while learning Python fundamentals, clean code practices, and object-oriented design.
+
+The main goal of this project was not just to make something work, but to understand **how real applications are structured internally**.
 
 ---
 
@@ -12,114 +12,112 @@ and real-world backend design principles using a command-line interface (CLI).
 
 - Add new students
 - View all students
-- Update existing student details
-- Delete students safely with confirmation
-- Input validation (name, age, ID)
+- Update student details
+- Delete students with confirmation
+- Input validation handled inside the model
 - Persistent storage using JSON
-- Modular and scalable project structure
-- Command aliases for better UX
+- Multiple command aliases for better CLI usability
+- Modular project structure
 
 ---
 
-## 🧠 What This Project Demonstrates
+## 🧠 Learning Focus Behind This Project
 
-This project is intentionally designed to reflect **real backend development practices**:
+Instead of keeping everything inside one file, this project was intentionally refactored step-by-step to learn:
 
 - Separation of concerns
-- Defensive programming
-- Clean, readable code
-- Reusable helper utilities
-- Business rule validation
-- Refactoring without breaking behavior
+- Object-Oriented Programming (OOP)
+- Clean architecture basics
+- Data validation at the model level
+- Safe refactoring without breaking functionality
+- Realistic backend project organization
+
+The system now uses a **Student model** instead of raw dictionaries, along with a mapper layer to convert data between Python objects and JSON storage.
 
 ---
 
-## 🗂 Project Structure
+## 📁 Project Structure
 
-```text
-student_manager/
+student-manager-system/
 │
-├── main.py          # Application entry point (menu & routing)
-├── storage.py       # JSON file handling (load/save)
-├── services.py      # Core business logic (CRUD operations)
-├── validators.py    # Input validation rules
-├── utils.py         # Helper utilities (ID lookup)
-├── students.json    # Persistent data storage
+├── main.py # Application entry point (menu & command routing)
+├── services.py # Business logic (CRUD operations)
+├── models.py # Student class (domain model + validation)
+├── mappers.py # Dict ↔ Object conversion layer
+├── storage.py # JSON load/save handling
+├── utils.py # Helper functions
+├── students.json # Persistent data storage
 └── README.md
 
+---
 
- 🛠 Technologies Used
+## ⚙️ Technologies Used
 
-Python 3.x
+- Python 3.x
+- Standard Library only (`json`, `os`)
+- Command Line Interface (CLI)
 
-Core Python Libraries  only (json, os)
+No external libraries were used intentionally to focus on core Python concepts.
 
-CLI-based interaction
+---
 
+## ▶️ How to Run
 
+Clone the repository:
 
-▶️ How to Run the Project
+```bash
+git clone https://github.com/Krishna5601-Cpu/student-manager-system.git
 
-1 - Clone the repository:
+Go into the project folder:
 
-git clone https://github.com/your-username/student-management-system.git
+cd student-manager-system
 
-
-2 - Navigate to the project directory:
-
-cd student-management-system
-
-
-3 - Run the application:
+Run the program:
 
 python main.py
+💻 Example Commands
 
+You can use either numbers or text commands:
 
+Action	Commands
+Add Student	1, add, add student
+View Students	2, view
+Update Student	3, update
+Delete Student	4, delete
+Exit	5, exit, quit
+✅ Validation Rules
 
-🧪 Example Commands
+Name must contain at least 2 characters
 
-You can interact using numbers or aliases:
+Age must be between 18 and 25
 
-1 or add → Add student
+Invalid data is rejected before saving
 
-2 or view → View students
+Validation is handled inside the Student class to ensure data integrity.
 
-3 or update → Update student
+🔒 Data Storage
 
-4 or delete → Delete student
+Student data is stored locally in a JSON file.
 
-5 or exit → Exit program
+The application converts:
 
+JSON data ⇄ Student objects
 
-📌 Validation Rules
-<ul>
-<li> Name: Minimum 2 characters, cannot be empty </li>
-
-<li> Age: Must be between 18 and 25 </li>
-
-<li> ID: Must be unique and exist for update/delete operations </li>
-</ul>
-
-
-🔒 Data Safety
-
-* All destructive actions require confirmation
-
-* Invalid input is safely handled
-
-* Data integrity is preserved across operations
-
+using a mapper layer, similar to how backend frameworks handle database models internally.
 
 🌱 Future Improvements
 
-Migrate from JSON to a database (SQLite/PostgreSQL)
+Planned upgrades while continuing the learning journey:
 
-- Add authentication
+Database integration (SQLite/PostgreSQL)
 
-- Convert CLI to REST API using FastAPI
+REST API version using FastAPI
 
-- Add automated tests
+Authentication system
 
-- Add CI/CD pipeline using GitHub Actions
+Automated tests (pytest)
 
+Docker & deployment
+
+CI/CD pipeline
 ```

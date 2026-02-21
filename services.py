@@ -1,6 +1,7 @@
 from storage import load_data, save_data
-from validators import validate_age, validate_name
 from utils import get_student_by_id
+from models import Student
+from mappers import student_from_dict, student_to_dict
 
 
 def view_students(data):
@@ -13,11 +14,13 @@ def view_students(data):
         print("No students found.")
         return
 
-    for student in students:
-        print(f"ID: {student.get('id')}")
-        print(f"Name: {student.get('name')}")
-        print(f"Age: {student.get('age')}")
-        print(f"Course: {student.get('course')}")
+    for student_dict in students:
+        student = student_from_dict(student_dict)
+
+        print(f"ID: {student.id}")
+        print(f"Name: {student.name}")
+        print(f"Age: {student.age}")
+        print(f"Course: {student.course}")
         print("-" * 20)
 
 
@@ -28,18 +31,11 @@ def add_student(data):
     students = data.get("students", [])
 
     name = input("Enter student name: ")
-    if not validate_name(name):
-        print("Invalid name.")
-        return
 
     try:
         age = int(input("Enter student age: "))
     except ValueError:
         print("Age must be a number.")
-        return
-
-    if not validate_age(age):
-        print("Invalid age. Age must be between 18 and 25.")
         return
 
     course = input("Enter student course: ")
@@ -50,14 +46,14 @@ def add_student(data):
     else:
         new_id = 1
 
-    new_student = {
-        "id": new_id,
-        "name": name,
-        "age": age,
-        "course": course,
-    }
+    try:
+        student = Student(new_id, name, age, course)
+    except ValueError as e:
+        print(e)
+        return
 
-    students.append(new_student)
+    students.append(student_to_dict(student))
+
     save_data(data)
 
     print("Student added successfully.")
@@ -76,25 +72,25 @@ def update_student(data):
         print("Invalid ID. Please enter a number.")
         return
 
-    student = get_student_by_id(data, student_id)
+    student_dict = get_student_by_id(data, student_id)
+    if not student_dict:
+        print("Student ID not found.")
+        return
+
+    student = student_from_dict(student_dict)
 
     if not student:
         print("Student ID not found.")
         return
-
-    print("\nCurrent student details:")
-    print(f"ID: {student['id']}")
-    print(f"Name: {student['name']}")
-    print(f"Age: {student['age']}")
-    print(f"Course: {student['course']}")
-    print("-" * 20)
+    print(f"ID: {student.id}")
+    print(f"Name: {student.name}")
+    print(f"Age: {student.age}")
+    print(f"Course: {student.course}")
 
     new_name = input("Enter new name (press Enter to skip): ").strip()
     if new_name:
-        if not validate_name(new_name):
-            print("Invalid name.")
-            return
-        student["name"] = new_name
+
+        student.update_name(new_name)
 
     new_age = input("Enter new age (press Enter to skip): ").strip()
     if new_age:
@@ -104,17 +100,16 @@ def update_student(data):
             print("Age must be a number.")
             return
 
-        if not validate_age(age):
-            print("Invalid age. Age must be between 18 and 25.")
-            return
-
-        student["age"] = age
+        student.update_age(age)
 
     new_course = input("Enter new course (press Enter to skip): ").strip()
     if new_course:
-        student["course"] = new_course
+        student.update_course(new_course)
 
+    index = data["students"].index(student_dict)
+    data["students"][index] = student_to_dict(student)
     save_data(data)
+
     print("Student updated successfully.")
 
 
