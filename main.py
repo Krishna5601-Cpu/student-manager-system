@@ -1,5 +1,3 @@
-import json
-import os
 from storage import load_data
 from services import (
     add_student,
@@ -7,9 +5,7 @@ from services import (
     update_student,
     delete_student,
 )
-
-
-FILE_NAME = "students.json"
+from utils import pause_and_clear
 
 
 def main():
@@ -54,9 +50,11 @@ def main():
 
         elif callable(action):
             action(data)
+            pause_and_clear()
 
         else:
             print("Invalid choice. Try again.")
+            pause_and_clear()
 
 
 if __name__ == "__main__":
