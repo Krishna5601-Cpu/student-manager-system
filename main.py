@@ -31,7 +31,12 @@ def main():
 
     while True:
         print("\n" + "=" * 40)
-        print("Student Management System")
+        print(
+            """  __                                                                      __                     
+ (_ _|_      _|  _  ._ _|_   |\/|  _. ._   _.  _   _  ._ _   _  ._ _|_   (_      _ _|_  _  ._ _  
+ __) |_ |_| (_| (/_ | | |_   |  | (_| | | (_| (_| (/_ | | | (/_ | | |_   __) \/ _>  |_ (/_ | | | 
+                                               _|                            /                   """
+        )
         print("=" * 40)
         print("1. Add student")
         print("2. View students")
