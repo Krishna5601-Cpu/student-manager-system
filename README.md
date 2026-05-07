@@ -1,4 +1,4 @@
-# 🚀 Student Management System (Python CLI)
+# 🧑🏻‍🎓🏫 Student Management System (Python CLI)
 
 A modular and well-structured **Student Management System** built using Python.
 This project demonstrates a clean backend-like architecture using a **Command Line Interface (CLI)**.
